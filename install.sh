@@ -83,8 +83,8 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 clear
 
 # Set these to change the version of northern to install
-TARBALLURL="https://github.com/zabtc/Northern/releases/download/1.0.0/northern-1.0.0-x86_64-linux-gnu.tar.gz"
-TARBALLNAME="northern-1.0.0-x86_64-linux-gnu.tar.gz"
+TARBALLURL="https://github.com/foundchain/FCHAIN/releases/download/1.0.0/fchain-1.0.0-x86_64-linux-gnu.tar.gz"
+TARBALLNAME="fchain-1.0.0-x86_64-linux-gnu.tar.gz"
 BOOTSTRAPURL=""
 BOOTSTRAPARCHIVE=""
 BWKVERSION="1.0.0"
@@ -143,7 +143,7 @@ echo "
  |               installation method.               |::
  |                                                  |::
  |  Otherwise, your masternode will not work, and   |::
- | the NORT Team CANNOT assist you in repairing  |::
+ | the FCHAIN Team CANNOT assist you in repairing  |::
  |         it. You will have to start over.         |::
  |                                                  |::
  +------------------------------------------------+::
@@ -160,13 +160,13 @@ fi
 
 if [[ ("$ADVANCED" == "y" || "$ADVANCED" == "Y") ]]; then
 
-USER=northern
+USER=fchain
 
 adduser $USER --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password > /dev/null
 
 INSTALLERUSED="#Used Advanced Install"
 
-echo "" && echo 'Added user "northern"' && echo ""
+echo "" && echo 'Added user "fchain"' && echo ""
 sleep 1
 
 else
@@ -228,30 +228,30 @@ if [[ ("$UFW" == "y" || "$UFW" == "Y" || "$UFW" == "") ]]; then
   ufw default deny incoming
   ufw default allow outgoing
   ufw allow ssh
-  ufw allow 6942/tcp
+  ufw allow 6565/tcp
   yes | ufw enable
 fi
 
-# Install NORT daemon
+# Install FCHAIN daemon
 wget $TARBALLURL
 tar -xzvf $TARBALLNAME 
 rm $TARBALLNAME
-mv ./northernd /usr/local/bin
-mv ./northern-cli /usr/local/bin
-mv ./northern-tx /usr/local/bin
+mv ./fchaind /usr/local/bin
+mv ./fchain-cli /usr/local/bin
+mv ./fchain-tx /usr/local/bin
 rm -rf $TARBALLNAME
 
-# Create .northern directory
-mkdir $USERHOME/.northern
+# Create .fchain directory
+mkdir $USERHOME/.fchain
 
 # Install bootstrap file
 if [[ ("$BOOTSTRAP" == "y" || "$BOOTSTRAP" == "Y" || "$BOOTSTRAP" == "") ]]; then
   echo "skipping"
 fi
 
-# Create northern.conf
-touch $USERHOME/.northern/northern.conf
-cat > $USERHOME/.northern/northern.conf << EOL
+# Create fchain.conf
+touch $USERHOME/.fchain/fchain.conf
+cat > $USERHOME/.fchain/fchain.conf << EOL
 ${INSTALLERUSED}
 rpcuser=${RPCUSER}
 rpcpassword=${RPCPASSWORD}
@@ -262,44 +262,32 @@ daemon=1
 logtimestamps=1
 maxconnections=256
 externalip=${IP}
-bind=${IP}:6942
+bind=${IP}:6565
 masternodeaddr=${IP}
 masternodeprivkey=${KEY}
 masternode=1
-addnode=207.246.69.246
-addnode=209.250.233.104
-addnode=45.77.82.101
-addnode=138.68.167.127
-addnode=45.77.218.53
-addnode=207.246.86.118
-addnode=128.199.44.28
-addnode=139.59.164.167
-addnode=139.59.177.56
-addnode=206.189.58.89
-addnode=207.154.202.113
-addnode=140.82.54.227
 EOL
-chmod 0600 $USERHOME/.northern/northern.conf
-chown -R $USER:$USER $USERHOME/.northern
+chmod 0600 $USERHOME/.fchain/fchain.conf
+chown -R $USER:$USER $USERHOME/.fchain
 
 sleep 1
 
-cat > /etc/systemd/system/northern.service << EOL
+cat > /etc/systemd/system/fchain.service << EOL
 [Unit]
-Description=northernd
+Description=fchaind
 After=network.target
 [Service]
 Type=forking
 User=${USER}
 WorkingDirectory=${USERHOME}
-ExecStart=/usr/local/bin/northernd -conf=${USERHOME}/.northern/northern.conf -datadir=${USERHOME}/.northern
-ExecStop=/usr/local/bin/northern-cli -conf=${USERHOME}/.northern/northern.conf -datadir=${USERHOME}/.northern stop
+ExecStart=/usr/local/bin/fchaind -conf=${USERHOME}/.fchain/fchain.conf -datadir=${USERHOME}/.fchain
+ExecStop=/usr/local/bin/fchain-cli -conf=${USERHOME}/.fchain/fchain.conf -datadir=${USERHOME}/.fchain stop
 Restart=on-abort
 [Install]
 WantedBy=multi-user.target
 EOL
-sudo systemctl enable northern.service
-sudo systemctl start northern.service
+sudo systemctl enable fchain.service
+sudo systemctl start fchain.service
 
 clear
 
