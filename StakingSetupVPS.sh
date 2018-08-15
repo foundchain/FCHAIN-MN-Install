@@ -28,8 +28,8 @@ sudo free
 sudo echo "/var/swap.img none swap sw 0 0" >> /etc/fstab
 cd
 
-wget https://github.com/zabtc/Northern/releases/download/1.0.0/northern-1.0.0-x86_64-linux-gnu.tar.gz
-tar -xzf northern-1.0.0-x86_64-linux-gnu.tar.gz
+wget https://github.com/foundchain/FCHAIN/releases/download/1.0.0/fchain-1.0.0-x86_64-linux-gnu.tar.gz
+tar -xzf fchain-1.0.0-x86_64-linux-gnu.tar.gz
 
 sudo apt-get install -y ufw
 sudo ufw allow ssh/tcp
@@ -37,39 +37,27 @@ sudo ufw limit ssh/tcp
 sudo ufw logging on
 echo "y" | sudo ufw enable
 sudo ufw status
-sudo ufw allow 6942/tcp
+sudo ufw allow 6565/tcp
   
 cd
-mkdir -p .northern
-echo "staking=1" >> northern.conf
-echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> northern.conf
-echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> northern.conf
-echo "rpcallowip=127.0.0.1" >> northern.conf
-echo "listen=1" >> northern.conf
-echo "server=1" >> northern.conf
-echo "daemon=1" >> northern.conf
-echo "logtimestamps=1" >> northern.conf
-echo "maxconnections=256" >> northern.conf
-echo "addnode=209.250.233.104" >> northern.conf
-echo "addnode=45.77.82.101" >> northern.conf
-echo "addnode=138.68.167.127" >> northern.conf
-echo "addnode=207.246.86.118" >> northern.conf
-echo "addnode=149.56.4.247" >> northern.conf
-echo "addnode=149.56.4.246" >> northern.conf
-echo "addnode=149.56.4.245" >> northern.conf
-echo "addnode=149.56.4.244" >> northern.conf
-echo "addnode=149.56.4.243" >> northern.conf
-echo "addnode=149.56.4.242" >> northern.conf
-echo "addnode=149.56.4.241" >> northern.conf
-echo "port=6942" >> northern.conf
-mv northern.conf .northern
+mkdir -p .fchain
+echo "staking=1" >> fchain.conf
+echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> fchain.conf
+echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> fchain.conf
+echo "rpcallowip=127.0.0.1" >> fchain.conf
+echo "listen=1" >> fchain.conf
+echo "server=1" >> fchain.conf
+echo "daemon=1" >> fchain.conf
+echo "logtimestamps=1" >> fchain.conf
+echo "maxconnections=256" >> fchain.conf
+echo "port=6565" >> fchain.conf
+mv fchain.conf .fchain
 
   
 cd
-./northernd -daemon
+./fchaind -daemon
 sleep 30
-./northern-cli getinfo
+./fchain-cli getinfo
 sleep 5
-./northern-cli getnewaddress
-echo "Use the address above to send your NORT coins to this server"
-echo "If you found this helpful, please donate NORT to NNq96FUcDRj62vX5CdbNeAFjG3MTYeeeHn"
+./fchain-cli getnewaddress
+echo "Use the address above to send your FCHAIN coins to this server"
