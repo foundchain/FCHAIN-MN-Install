@@ -55,7 +55,7 @@ case $key in
     -h|--help)
     cat << EOL
 
-NORT Masternode installer arguments:
+FCHAIN Masternode installer arguments:
 
     -n --normal               : Run installer in normal mode
     -a --advanced             : Run installer in advanced mode
@@ -82,7 +82,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 clear
 
-# Set these to change the version of northern to install
+# Set these to change the version of fchain to install
 TARBALLURL="https://github.com/foundchain/FCHAIN/releases/download/1.0.0/fchain-1.0.0-x86_64-linux-gnu.tar.gz"
 TARBALLNAME="fchain-1.0.0-x86_64-linux-gnu.tar.gz"
 BOOTSTRAPURL=""
