@@ -266,7 +266,11 @@ bind=${IP}:6565
 masternodeaddr=${IP}
 masternodeprivkey=${KEY}
 masternode=1
-addnode=108.61.119.248
+addnode=188.166.65.83
+addnode=142.93.131.163
+addnode=204.48.20.100
+addnode=207.148.113.42
+addnode=144.202.54.26
 EOL
 chmod 0600 $USERHOME/.fchain/fchain.conf
 chown -R $USER:$USER $USERHOME/.fchain
