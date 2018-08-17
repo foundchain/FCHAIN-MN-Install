@@ -266,7 +266,6 @@ bind=${IP}:6565
 masternodeaddr=${IP}
 masternodeprivkey=${KEY}
 masternode=1
-addnode=188.166.65.83
 addnode=142.93.131.163
 addnode=204.48.20.100
 addnode=207.148.113.42
